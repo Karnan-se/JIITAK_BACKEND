@@ -1,5 +1,6 @@
 import express from "express"
-import { createPoll } from "../controller/adminController.js";
+import { createPoll  , getPolls , updatePolls } from "../controller/adminController.js";
+
 
 const adminrouter = express.Router();
 
@@ -7,6 +8,8 @@ const adminrouter = express.Router();
 // adminrouter.post("/Login", )
 
 adminrouter.post("/createPoll",createPoll )
+adminrouter.get("/getPolls", getPolls )
+adminrouter.post("/updatePolls",updatePolls )
 
 
 
