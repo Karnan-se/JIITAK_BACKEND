@@ -1,0 +1,14 @@
+import dotenv from "dotenv";
+dotenv.config();
+
+export const ConfigKeys = {
+  mongoURL: process.env.MONGOURL,
+  PORTNUMBER: process.env.PORT_NUMBER,
+  CLIENT_ORGIN: process.env.NODE_ENV == "development" ? "http://localhost:5173" : "",
+  ACCESS_TOKEN_EXPIRES_IN: "15m",
+  REFRESH_TOKEN_EXPIRES_IN: "7d",
+  JWTSECRET :process.env.JWTSECRET,
+  NODE_ENV : process.env.NODE_ENV
+  
+};
+
