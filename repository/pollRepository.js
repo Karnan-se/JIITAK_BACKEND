@@ -68,3 +68,32 @@ export const updatePoll =async(pollId , pollDetails)=>{
         
     }
 } 
+
+export const updateVote = async (pollId, selectedOptionText) => {
+    try {
+      // Ensure pollId is a valid ObjectId
+      if (!mongoose.Types.ObjectId.isValid(pollId)) {
+        throw new Error("Invalid poll ID");
+      }
+  
+      if (typeof selectedOptionText !== "string") {
+        throw new Error("Option text must be a string");
+      }
+  
+      const updatedPoll = await Poll.findOneAndUpdate(
+        { _id: pollId, "options.text": selectedOptionText }, // Match poll and correct option
+        { $inc: { "options.$.votes": 1 } }, // Increment the correct option's vote count
+        { new: true } // Return the updated poll
+      );
+  
+      if (!updatedPoll) {
+        throw new Error("Poll not found or option does not exist");
+      }
+  
+      return updatedPoll;
+    } catch (error) {
+      console.error("Error updating poll:", error.message);
+      throw error;
+    }
+  };
+  

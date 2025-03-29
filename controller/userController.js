@@ -3,6 +3,7 @@ import { generateAccessToken, generateRefreshToken, } from "../services/jwtServi
 import { comparePassword  , hashPassword} from "../utils/passwordService.js";
 import { UserModal } from "../model/userModal.js";
 import { attachTokenCookie } from "../services/attachCookie.js";
+import { updateVote } from "../repository/pollRepository.js";
 
 
 
@@ -101,3 +102,75 @@ export const userRegister = async (req, res, next) => {
     next(error);
   }
 };
+
+
+export const adminRegister = async (req, res, next) => {
+  try {
+    const { email, password, name } = req.body;
+
+    if (!email) {
+      throw AppError.conflict("Missing Email Address");
+    }
+    if (!password) {
+      throw AppError.conflict("Missing Password");
+    }
+    if (!name) {
+      throw AppError.conflict("Missing Name");
+    }
+
+  
+    const existingAdmin = await AdminModal.findOne({ emailAddress: email });
+    if (existingAdmin) {
+      throw AppError.validation("Email Already Registered as Admin");
+    }
+
+    
+    const hashedPassword = await hashPassword(password);
+
+    
+    const newAdmin = await AdminModal.create({
+      emailAddress: email,
+      password: hashedPassword,
+      name: name,
+      role: "admin", 
+    });
+
+    if (newAdmin) {
+      
+      const accessToken = generateAccessToken(newAdmin._id);
+      const refreshToken = generateRefreshToken(newAdmin._id);
+
+      
+      attachTokenCookie("AccessToken", accessToken, res);
+      attachTokenCookie("RefreshToken", refreshToken, res);
+    }
+
+    
+    return res.status(201).json({
+      message: "Admin registration successful",
+      adminDetails: {
+        id: newAdmin._id,
+        email: newAdmin.emailAddress,
+      },
+    });
+
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
+
+
+export const updateVotes = async(req, res, next)=>{
+  try {
+    const {pollId , pollDetails} = req.body
+    const updatedVotes = await updateVote(pollId , pollDetails)
+    res.status(200).json({updatedVotes})
+
+  } catch (error) {
+    console.log(error)
+    next(error)
+    
+  }
+}
