@@ -156,7 +156,7 @@ export const getPolls = async (req, res, next) => {
         })),
       };
     });
-    console.log(formattedPolls, "formattedPOlls");
+    
 
     return res.status(200).json({ formattedPolls });
   } catch (error) {

@@ -4,6 +4,7 @@ import { jLogin, jRegister } from "../controller/japaneeseUserController.js"
 import { sendPasswordResetEmail } from "../services/EmailService.js"
 import { SendResetPaswwordLink } from "../controller/japaneeseUserController.js"
 import { ResetPassword } from "../controller/japaneeseUserController.js"
+import { votedUser } from "../controller/pollController.js"
 
 
 
@@ -14,6 +15,7 @@ userRouter.post("/login" , userLogin)
 userRouter.post("/register", userRegister)
 userRouter.post("/updatevote", updateVotes )
 userRouter.post("/logout", logout)
+userRouter.get("/fetchVote", votedUser)
 
 
 userRouter.post("/jregister",jRegister )

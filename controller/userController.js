@@ -5,6 +5,7 @@ import { UserModal } from "../model/userModal.js";
 import { attachTokenCookie } from "../services/attachCookie.js";
 import { updateVote } from "../repository/pollRepository.js";
 import { ConfigKeys } from "../config.js";
+import Vote from "../model/VoteModal.js";
 
 
 
@@ -165,9 +166,15 @@ export const adminRegister = async (req, res, next) => {
 
 export const updateVotes = async(req, res, next)=>{
   try {
-    const {pollId , pollDetails} = req.body
+    const {userInfo ,pollId , pollDetails} = req.body
+  
     const updatedVotes = await updateVote(pollId , pollDetails)
+    console.log(updatedVotes)
     res.status(200).json({updatedVotes})
+
+    const voteCreated = await Vote.create({userId : userInfo , pollId:pollId})
+    console.log(voteCreated , "voteCreated")
+
 
   } catch (error) {
     console.log(error)
