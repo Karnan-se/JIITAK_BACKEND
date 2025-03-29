@@ -1,6 +1,6 @@
 import express from  "express"
 import cookieParser from "cookie-parser";
-import connectDataBase from "./Services/ConnectDb.js";
+import connectDataBase from "./services/ConnectDb.js";
 import { ConfigKeys } from "./config.js";
 import cors from "cors"
 import { adminrouter } from "./router/adminRouter.js";
@@ -13,7 +13,7 @@ app.use(cookieParser())
 app.use(express.json())
 app.use(express.urlencoded({extended:true}))
 
-
+console.log(ConfigKeys.CLIENT_ORGIN , "clientt Irdibn")
 
 app.use(cors({
      origin:ConfigKeys.CLIENT_ORGIN,
