@@ -175,3 +175,17 @@ export const ResetPassword = async (req, res) => {
     return res.status(500).json({ message: "Internal Server Error" });
   }
 };
+
+
+export const getUserData = async(req, res, next)=>{
+ try {
+  const  userData = await JapaneseUserModal.find()
+  console.log(userData , "userData")
+  return res.status(200).json({userData})
+  
+ } catch (error) {
+  console.log(error)
+  
+ }
+
+}
