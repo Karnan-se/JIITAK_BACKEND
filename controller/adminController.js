@@ -11,6 +11,7 @@ import {
   generateRefreshToken,
 } from "../services/jwtService.js";
 import { attachTokenCookie } from "../services/attachCookie.js";
+import { ConfigKeys } from "../config.js";
 
 export const adminLogin = async (req, res, next) => {
   try {
@@ -174,6 +175,20 @@ export const updatePolls = async (req, res, next) => {
     return await getPolls(req, res, next);
   } catch (error) {
     console.error("Error updating poll:", error);
+    next(error);
+  }
+};
+
+
+export const logout = async (req, res, next) => {
+  try {
+    
+    res.clearCookie("AccessToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
+    res.clearCookie("RefreshToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
+    console.log("cookies cleaed on the basis production and development")
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
     next(error);
   }
 };

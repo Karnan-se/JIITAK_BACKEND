@@ -4,6 +4,7 @@ import { comparePassword  , hashPassword} from "../utils/passwordService.js";
 import { UserModal } from "../model/userModal.js";
 import { attachTokenCookie } from "../services/attachCookie.js";
 import { updateVote } from "../repository/pollRepository.js";
+import { ConfigKeys } from "../config.js";
 
 
 
@@ -174,3 +175,18 @@ export const updateVotes = async(req, res, next)=>{
     
   }
 }
+
+
+export const logout = async (req, res, next) => {
+  try {
+    
+     res.clearCookie("AccessToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
+       res.clearCookie("RefreshToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
+       console.log("cookies cleaed on the basis production and development")
+    console.log("cookies cleared")
+
+    return res.status(200).json({ message: "Logout successful" });
+  } catch (error) {
+    next(error);
+  }
+};
