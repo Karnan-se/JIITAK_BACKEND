@@ -10,7 +10,7 @@ const adminrouter = express.Router();
 
 
 adminrouter.post("/createPoll",createPoll )
-adminrouter.get("/getPolls", getPolls )
+adminrouter.get("/getPolls", jwtAuth , getPolls )
 adminrouter.post("/updatePolls",updatePolls )
 adminrouter.post("/login", adminLogin )
 adminrouter.post("/register", adminRegister  )
