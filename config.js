@@ -8,7 +8,8 @@ export const ConfigKeys = {
   ACCESS_TOKEN_EXPIRES_IN: "15m",
   REFRESH_TOKEN_EXPIRES_IN: "7d",
   JWTSECRET :process.env.JWTSECRET,
-  NODE_ENV : process.env.NODE_ENV
-  
+  NODE_ENV : process.env.NODE_ENV,
+  Email: "karnan.karnan.s@gmail.com",
+  Mail_password : "gezy atrx vxuh amaa",
 };
 

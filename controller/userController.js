@@ -179,7 +179,7 @@ export const updateVotes = async(req, res, next)=>{
 
 export const logout = async (req, res, next) => {
   try {
-    
+    // Clear the access and refresh tokens from cookies
      res.clearCookie("AccessToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
        res.clearCookie("RefreshToken", { httpOnly: true, secure: ConfigKeys.NODE_ENV == "production" ? true : false });
        console.log("cookies cleaed on the basis production and development")
