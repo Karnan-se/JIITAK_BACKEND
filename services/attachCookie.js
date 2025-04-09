@@ -8,7 +8,7 @@ const attachTokenCookie = (cookieName, Token, res) => {
         secure: ConfigKeys.NODE_ENV === "production",
         signed: false,
         maxAge: cookieName === "AccessToken" ? 15 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000,
-       sameSite: "None"
+       sameSite: ConfigKeys.NODE_ENV === "production" ? "None" : "Lax"
     };
 
     try {
