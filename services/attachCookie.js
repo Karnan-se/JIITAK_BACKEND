@@ -7,7 +7,8 @@ const attachTokenCookie = (cookieName, Token, res) => {
         httpOnly: true,
         secure: ConfigKeys.NODE_ENV === "production",
         signed: false,
-        maxAge: cookieName === "AccessToken" ? 15 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000
+        maxAge: cookieName === "AccessToken" ? 15 * 60 * 1000 : 7 * 24 * 60 * 60 * 1000,
+       sameSite: "None"
     };
 
     try {
