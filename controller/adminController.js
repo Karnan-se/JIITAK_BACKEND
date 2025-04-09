@@ -39,12 +39,12 @@ export const adminLogin = async (req, res, next) => {
       throw AppError.validation("Incorrect Password");
     }
 
-    const accessToken = generateAccessToken(adminDetals._id);
+    const accessToken = generateAccessToken(adminDetals._id , "Admin");
     if (!accessToken) {
       throw AppError.conflict("Error creating access token");
     }
 
-    const refreshToken = generateRefreshToken(adminDetals._id);
+    const refreshToken = generateRefreshToken(adminDetals._id , "Admin");
     if (!refreshToken) {
       throw AppError.conflict("Error creating refresh token");
     }
@@ -92,8 +92,10 @@ export const adminRegister = async (req, res, next) => {
     });
 
     if (newAdmin) {
-      const accessToken = generateAccessToken(newAdmin._id);
-      const refreshToken = generateRefreshToken(newAdmin._id);
+      const accessToken = generateAccessToken(newAdmin._id , "Admin");
+      const refreshToken = generateRefreshToken(newAdmin._id , "Admin");
+
+      console.log(accessToken ,  "accessToken")
 
       attachTokenCookie("AccessToken", accessToken, res);
       attachTokenCookie("RefreshToken", refreshToken, res);

@@ -32,12 +32,12 @@ export const userLogin = async (req, res, next) => {
       if (!comparedPassword) {
         throw AppError.validation("Incorrect Password");
       }
-      const accessToken = generateAccessToken(userDetails._id)
+      const accessToken = generateAccessToken(userDetails._id , "User")
       if(!accessToken){
         throw AppError.conflict("Error creating accessToken")
       }
       console.log(accessToken , "AccessToken" , "\n" , "\n")
-      const refreshToken  = generateRefreshToken(userDetails._id)
+      const refreshToken  = generateRefreshToken(userDetails._id , "User")
       if(!refreshToken){
         throw AppError.conflict("Error creating the refreshToken")
       }
@@ -85,8 +85,8 @@ export const userRegister = async (req, res, next) => {
     });
 
     if(newUser){
-      const accessToken = generateAccessToken(newUser._id)
-      const refreshToken  = generateRefreshToken(newUser._id)
+      const accessToken = generateAccessToken(newUser._id , "User")
+      const refreshToken  = generateRefreshToken(newUser._id , "User")
       attachTokenCookie("AccessToken", accessToken, res)
       attachTokenCookie("RefreshToken", refreshToken, res)
     }
@@ -106,61 +106,61 @@ export const userRegister = async (req, res, next) => {
 };
 
 
-export const adminRegister = async (req, res, next) => {
-  try {
-    const { email, password, name } = req.body;
+// export const adminRegister = async (req, res, next) => {
+//   try {
+//     const { email, password, name } = req.body;
 
-    if (!email) {
-      throw AppError.conflict("Missing Email Address");
-    }
-    if (!password) {
-      throw AppError.conflict("Missing Password");
-    }
-    if (!name) {
-      throw AppError.conflict("Missing Name");
-    }
+//     if (!email) {
+//       throw AppError.conflict("Missing Email Address");
+//     }
+//     if (!password) {
+//       throw AppError.conflict("Missing Password");
+//     }
+//     if (!name) {
+//       throw AppError.conflict("Missing Name");
+//     }
 
   
-    const existingAdmin = await AdminModal.findOne({ emailAddress: email });
-    if (existingAdmin) {
-      throw AppError.validation("Email Already Registered as Admin");
-    }
+//     const existingAdmin = await AdminModal.findOne({ emailAddress: email });
+//     if (existingAdmin) {
+//       throw AppError.validation("Email Already Registered as Admin");
+//     }
 
     
-    const hashedPassword = await hashPassword(password);
+//     const hashedPassword = await hashPassword(password);
 
     
-    const newAdmin = await AdminModal.create({
-      emailAddress: email,
-      password: hashedPassword,
-      name: name,
-      role: "admin", 
-    });
+//     const newAdmin = await AdminModal.create({
+//       emailAddress: email,
+//       password: hashedPassword,
+//       name: name,
+//       role: "admin", 
+//     });
 
-    if (newAdmin) {
+//     if (newAdmin) {
       
-      const accessToken = generateAccessToken(newAdmin._id);
-      const refreshToken = generateRefreshToken(newAdmin._id);
+//       const accessToken = generateAccessToken(newAdmin._id);
+//       const refreshToken = generateRefreshToken(newAdmin._id);
 
       
-      attachTokenCookie("AccessToken", accessToken, res);
-      attachTokenCookie("RefreshToken", refreshToken, res);
-    }
+//       attachTokenCookie("AccessToken", accessToken, res);
+//       attachTokenCookie("RefreshToken", refreshToken, res);
+//     }
 
     
-    return res.status(201).json({
-      message: "Admin registration successful",
-      adminDetails: {
-        id: newAdmin._id,
-        email: newAdmin.emailAddress,
-      },
-    });
+//     return res.status(201).json({
+//       message: "Admin registration successful",
+//       adminDetails: {
+//         id: newAdmin._id,
+//         email: newAdmin.emailAddress,
+//       },
+//     });
 
-  } catch (error) {
-    console.log(error);
-    next(error);
-  }
-};
+//   } catch (error) {
+//     console.log(error);
+//     next(error);
+//   }
+// };
 
 
 

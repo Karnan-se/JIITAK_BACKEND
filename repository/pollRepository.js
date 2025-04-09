@@ -19,7 +19,7 @@ export const getPoll = async()=>{
 
     try {
         const poll = await Poll.find()
-        console.log(poll)
+       
         return poll
         
     } catch (error) {

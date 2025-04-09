@@ -16,7 +16,8 @@ const jwtAuth = async (req, res, next) => {
       const { userId, role } = verifyAccessToken(accessToken);
 
       if (userId && role) {
-        req.user = { id: userId, role }; 
+        req.user = { id: userId, role };
+        console.log(role , "role ") 
         return next();
       }
     }
@@ -32,7 +33,7 @@ const jwtAuth = async (req, res, next) => {
     attachTokenCookie("AccessToken", newAccessToken, res);
 
     console.log("Access token expired, but refresh token is valid. Issued new access token.");
-    req.user = { id: userId, role }; // Store user info in `req.user`
+    req.user = { id: userId, role };
     return next();
   } catch (error) {
     console.log("Refresh token verification failed:", error.message);
@@ -41,3 +42,5 @@ const jwtAuth = async (req, res, next) => {
 };
 
 export default jwtAuth;
+
+

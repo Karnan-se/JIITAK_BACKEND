@@ -5,6 +5,9 @@ import { sendPasswordResetEmail } from "../services/EmailService.js"
 import { SendResetPaswwordLink } from "../controller/japaneeseUserController.js"
 import { ResetPassword } from "../controller/japaneeseUserController.js"
 import { votedUser } from "../controller/pollController.js"
+import jwtAuth from "../middleware/authMiddleware.js"
+import { public_Autherisation, user_Autherisation } from "../middleware/AutherizationMiddleware.js"
+
 
 
 
@@ -13,7 +16,7 @@ const userRouter = express.Router()
 
 userRouter.post("/login" , userLogin)
 userRouter.post("/register", userRegister)
-userRouter.post("/updatevote", updateVotes )
+userRouter.post("/updatevote",jwtAuth, public_Autherisation ,  updateVotes )
 userRouter.post("/logout", logout)
 userRouter.get("/fetchVote", votedUser)
 
